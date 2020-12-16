@@ -37,13 +37,13 @@ P.df$SIFStudy <- as.factor(P.df$SIFStudy)
 
 #### Problem 1:  The Data Set
 
-Insert your text here.
+The data comes from the responses of students attending the University of Washington in the course, STAT 311, in the Fall quarter. It was collected in the form of a survey given as an optional assignment with extra credit to these students. The dataset was then processed in the form of an excel spreadsheet with 178 observations and 23 variables. Each row represents a single student in the class. Meanwhile, each column represents a different variable or the response to each question in the survey. Answers took a variety of forms. There were both forms of numerical and categorical variables. There were questions that asked for whole integers such as age. A specific example of a discrete numerical variable was an instance where a student could respond with average daily screen time, “rounded to the nearest quarter hour”. Whereas, the “Ethnicity” variable was recorded as a number, but each number represented a different ethnicity, making it a nominal categorical variable. Other multiple choice questions were also represented this way. Some other categorical variables include religion, field of study, and political affiliation. The survey also calculates a “climate sentiment score” based on answers to a variety of sub questions and reports them as a whole integer in the dataset. There are also questions that ask to “select all that apply”. These questions are processed as a sum of all of the options chosen.
 
 #### Problem 2:  Sampling
 
 ##### Part A
 
-Insert your text here.
+Convenience sampling was used to obtain this dataset. The survey was only given to students in this specific class and it was optional. 
 
 ##### Part B
 
