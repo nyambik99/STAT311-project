@@ -172,3 +172,9 @@ decision: reject the null hypothesis
 Because 2*10^-16 <= .01, there is sufficient evidence to support the claim that the population mean climate sentiment score for students that identify as democrats is greater than the population mean score for students that identify as something other than democrat.
 
 ##### Part C
+
+#### Extra Credit
+```{r}
+P.df[ ,7]
+```
+It is difficult to eliminate groups down to only two categories because it feels like we are disregarding underrepresented groups. We think it would be best to combine students in the SES (socioeconomic status) category down to the labels, “Struggled” and “Little to No Struggle”. The original categories were somewhat difficult to interpret or measure so it made sense to just simplify it down to a binary variable. It is a fairly easy question to answer whether a family had significant struggle or not, rather than what specific Ethnicity a student is or what area of study they are in. Here, we would combine the students who answered with 1s or 2s which originally represented the responses, “My family had enough money to take care of things fine” and “My family was able to make ends meet, but with some difficulties” into the “Little to No Struggle” category. Then, we could combine the students who answered with 3s, 4s, and 5s which represented the responses “My family had to struggle hard to make ends meet”, “My family was not able to make ends meet, despite struggling hard”, “Most of the time I was growing up my family was very poor or on welfare”, respectively, into the “Struggled” category. Meanwhile, no one answered with “Prefer not to answer”, so that would be completely omitted from the binary variable. 
