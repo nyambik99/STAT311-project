@@ -1,6 +1,6 @@
 ---
-title: "Stat311Au20Project"
-author: "Kyle Mumma"
+title: "Stat311ProjectGroup38"
+author: "Kyle Mumma, Jasmine Joy Palaganas, Sofyar Satrio Utomo"
 date: "12/15/2020"
 output: html_document
 ---
@@ -201,6 +201,32 @@ decision: reject the null hypothesis
 Because 2*10^-16 <= .01, there is sufficient evidence to support the claim that the population mean climate sentiment score for students that identify as democrats is greater than the population mean score for students that identify as something other than democrat.
 
 ##### Part C
+```{r}
+urb <- filter(P.df, Origin=="Urban")
+sub <- filter(P.df, Origin=="Suburban")
+s1 <- sd(urb$ClimateScore)
+s2 <- sd(sub$ClimateScore)
+n1 <- length(urb$ClimateScore)
+n2 <- length(urb$ClimateScore)
+se <- sqrt((s1^2 / n1) + (s2^2 / n2))
+z <- (mean(urb$ClimateScore) - mean(sub$ClimateScore)) / se
+p_val <- 2*pnorm(z, mean=0, sd=1)
+p_val
+p_val <= .01
+```
+mu_1 = population mean for climate score of students raised in urban environment
+mu_2 = population mean for climate score of students raised in suburban environment
+
+H_0: mu_1 - mu_2 = 0
+H_a: mu_1 - mu_2 != 0
+
+test statistic = xbar_1 - xbar_2 = -1.471528
+
+p-value: 0.04459196
+
+decision: fail to reject to null hypothesis
+
+Because 0.04459196 > .01, there is insufficient evidence to support the claim that the population mean climate sentiment score for students raised in urban environment is different than the population mean score for students raised in a suburban environment.
 
 #### Extra Credit
 ```{r}
