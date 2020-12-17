@@ -89,13 +89,13 @@ meanConfidenceInterval <- function(sample, alpha) {
 ```{r}
 meanConfidenceInterval(P.df$ClimateScore, .1)
 ```
-We are 90% confident that the population mean for climate sentiment is between 32.76618 and 34.06528
+We are 90% confident that the population mean for climate sentiment is between about 32.76618 and 34.06528
 
 ##### Part B
 ```{r}
 meanConfidenceInterval(P.df$ClimateScore, .01)
 ```
-We are 99% confident that the population mean for climate sentiment is between 32.39854 and 34.43293
+We are 99% confident that the population mean for climate sentiment is between about 32.39854 and 34.43293
 
 ##### Part C
 The lower and upper bounds in part A are tighter (smaller range) than the lower and upper bounds in part B. This is because in part A we are less confident that the mean is within the given bounds and therefore we can have a tighter range. In part b we need to be more confident that the mean is within the given bounds and therefore we need a larger range.
@@ -114,11 +114,61 @@ test statistic: x_bar = 33.41573
 p-value: 0.01010778
 decision: reject the null hypothesis
 
-Because 0.01010778 <= .05, there is sufficient evidence to reject the claim that the population mean for climate sentiment is equal to 32.4.
+Because 0.01010778 <= .05, there is sufficient evidence to support the claim that the population mean for climate sentiment is different than 32.4.
 
 ##### Part E
 For the hypothesis test in part D we risk making a type 1 error. It is possible that we could reject the hypothesis that the population mean for climate sentiment is equal to 32.4, when in reality it actually is true.
 
-#### Problem 6: 
+#### Problem 6: Climate Sentiment and Political Affiliation/Origin
 
-You need to add a problem six header after the colon depending on the problem you pick. Also, you will have either three or seven subheadings (use 5 hashtags) depending on the problem you pick.
+##### Part A
+```{r}
+diffMeansCI <- function(x1, x2, alpha) {
+  x1_bar <- mean(x1)
+  x2_bar <- mean(x2)
+  s_1 <- sd(x1)
+  s_2 <- sd(x2)
+  n_1 <- length(x1)
+  n_2 <- length(x2)
+  me <- qnorm(alpha / 2) * sqrt((s_1^2 / n_1) + (s_2^2 / n_2))
+  x <- x1_bar - x2_bar
+  return(c(x + me, x - me))
+}
+
+dems <- filter(P.df, PoliticalAff=="Democrat")
+non_dems <- filter(P.df, PoliticalAff!="Democrat")
+
+diffMeansCI(dems$ClimateScore, non_dems$ClimateScore, .01)
+```
+We are 99% confident that the difference in population mean climate scores between democrats and non-democrats falls between about 3.503038 and 6.747870
+
+##### Part B
+```{r}
+dems <- filter(P.df, PoliticalAff=="Democrat")
+non_dems <- filter(P.df, PoliticalAff!="Democrat")
+s1 <- sd(dems$ClimateScore)
+s2 <- sd(non_dems$ClimateScore)
+n1 <- length(dems$ClimateScore)
+n2 <- length(non_dems$ClimateScore)
+se <- sqrt((s1^2/n1) + (s2^2/n2))
+z <- (mean(dems$ClimateScore) - mean(non_dems$ClimateScore)) / se
+p_val <- pnorm(z, mean=0, sd=1, lower.tail=FALSE)
+p_val
+p_val <= .01
+```
+mu_1 = population mean for climate score of democrats
+
+mu_2 = population mean for climate score of non-democrats
+
+H_0: mu_1 - mu_2 = 0
+H_a: mu_1 - mu_2 > 0
+
+test statistic: xbar_1 - xbar_2 = 5.125454
+
+p-value = 2*10^-16 
+
+decision: reject the null hypothesis
+
+Because 2*10^-16 <= .01, there is sufficient evidence to support the claim that the population mean climate sentiment score for students that identify as democrats is greater than the population mean score for students that identify as something other than democrat.
+
+##### Part C
