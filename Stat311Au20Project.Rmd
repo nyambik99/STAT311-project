@@ -91,14 +91,29 @@ polygon(kdplot2, col="red", border="blue")
 We have included the subset code in the R block below to get you started. You will need to form other subsets of data for other questions. Refer to R Assignment 2 Tutorial, R Assignment 2 Solutions and R Assignment 3 Tutorial for examples.
 
 ```{r}
-table(P.df$PoliticalAff)
-PAff.D <- filter(P.df, PoliticalAff == "Democrat")
-PAff.NA <- filter(P.df, PoliticalAff == "No affiliation")
+#table(P.df$PoliticalAff)
+PAff.D <- filter(P.df, PoliticalAff == "Democrat" |  PoliticalAff =="No affiliation")
 # Add the rest of the code for Part A
 
+PAff.D <- filter(PAff.D, SIFStudy == "Yes" | SIFStudy == "No")
+PAff.D$PoliticalAff <- factor(PAff.D$PoliticalAff)
+PAff.D$SIFStudy <- factor(PAff.D$SIFStudy)
+
+tabDNA <- table(PAff.D$PoliticalAff, PAff.D$SIFStudy)
+tabDNA
 ```
 
 ##### Part B
+```{r}
+# Large number test. (Yes, as a success)
+tabDNA
+
+sum(tabDNA[1,]) * tabDNA[1,2]/sum(tabDNA[1,]) # n1p1
+sum(tabDNA[1,]) * (1- (tabDNA[1,2]/sum(tabDNA[1,]))) # n1q1
+sum(tabDNA[2,]) * tabDNA[2,2]/sum(tabDNA[2,]) # n2p2
+sum(tabDNA[2,]) * (1- (tabDNA[2,2]/sum(tabDNA[2,]))) # n2q2
+```
+
 
 ##### Part C
 
