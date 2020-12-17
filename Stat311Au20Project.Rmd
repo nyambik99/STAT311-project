@@ -52,8 +52,37 @@ This sample could represent a couple of possible populations. Depending on the s
 #### Problem 3:  Explore Climate Score
 
 ##### Part A:  Climate Score Overall
+```{r}
+hplot1 <- hist(P.df$ClimateScore, breaks = c(8, 12, 16, 20, 24, 28, 32, 36, 40), xlab = "Climate Score", 
+     main = "Distribution of Climate Score", xlim = c(5, 40), col = "red")
+xfit<-seq(min(P.df$ClimateScore), max(P.df$ClimateScore), length=178)
+yfit<-dnorm(xfit, mean=mean(P.df$ClimateScore), sd=sd(P.df$ClimateScore))
+yfit <- yfit*diff(hplot1$mids[1:2])*length(P.df$ClimateScore)
+lines(xfit, yfit, col="blue", lwd=2)
+
+kdplot1 <- density(P.df$ClimateScore)
+plot(kdplot1, main="Kernel Density of Climate Score", xlab = "Climate Score")
+polygon(kdplot1, col="red", border="blue")
+```
+
 
 ##### Part B:  Climate Score by Democrat and No Affiliation
+```{r}
+non_rep <- P.df %>% select(PoliticalAff, ClimateScore) %>%
+  filter(PoliticalAff != "Republican")
+
+hplot2 <- hist(non_rep$ClimateScore, breaks = c(8, 12, 16, 20, 24, 28, 32, 36, 40), xlab = "Climate Score", 
+     main = "Distribution of Climate Score", xlim = c(5, 40), col = "red")
+xfit<-seq(min(non_rep$ClimateScore), max(non_rep$ClimateScore), length=178)
+yfit<-dnorm(xfit, mean=mean(non_rep$ClimateScore), sd=sd(non_rep$ClimateScore))
+yfit <- yfit*diff(hplot2$mids[1:2])*length(non_rep$ClimateScore)
+lines(xfit, yfit, col="blue", lwd=2)
+
+kdplot2 <- density(non_rep$ClimateScore)
+plot(kdplot2, main="Kernel Density of Climate Score", xlab = "Climate Score")
+polygon(kdplot2, col="red", border="blue")
+```
+
 
 #### Problem 4:  Political Affiliation and SIF Study
 
