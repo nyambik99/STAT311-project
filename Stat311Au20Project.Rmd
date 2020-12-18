@@ -1,5 +1,5 @@
 ---
-title: "Stat311ProjectGroup38"
+title: "STAT 311 Project Group 38"
 author: "Kyle Mumma, Jasmine Joy Palaganas, Sofyar Satrio Utomo"
 date: "12/15/2020"
 output: html_document
@@ -37,17 +37,17 @@ P.df$SIFStudy <- as.factor(P.df$SIFStudy)
 
 #### Problem 1:  The Data Set
 
-The data comes from the responses of students attending the University of Washington in the course, STAT 311, in the Fall quarter. It was collected in the form of a survey given as an optional assignment with extra credit to these students. The dataset was then processed in the form of an excel spreadsheet with 178 observations and 23 variables. Each row represents a single student in the class. Meanwhile, each column represents a different variable or the response to each question in the survey. Answers took a variety of forms. There were both forms of numerical and categorical variables. There were questions that asked for whole integers such as age. A specific example of a discrete numerical variable was an instance where a student could respond with average daily screen time, “rounded to the nearest quarter hour”. Whereas, the “Ethnicity” variable was recorded as a number, but each number represented a different ethnicity, making it a nominal categorical variable. Other multiple choice questions were also represented this way. Some other categorical variables include religion, field of study, and political affiliation. The survey also calculates a “climate sentiment score” based on answers to a variety of sub questions and reports them as a whole integer in the dataset. There are also questions that ask to “select all that apply”. These questions are processed as a sum of all of the options chosen.
+The data comes from the responses of students attending the University of Washington in the course, STAT 311, in the Fall quarter. It was collected in the form of a survey given as an optional assignment with extra credit to these students. The data set was then processed in the form of an excel spreadsheet with 178 observations and 23 variables. Each row represents a single student in the class. While each column represents a different variable or the response to each question in the survey. Answers took a variety of forms. There were both forms of numerical and categorical variables. There were questions that asked for whole integers such as age. A specific example of a discrete numerical variable was an instance where a student could respond with average daily screen time, “rounded to the nearest quarter hour”. Whereas, the “Ethnicity” variable was recorded as a number, but each number represented a different ethnicity, making it a nominal categorical variable. Other multiple choice questions were also represented this way. Some other categorical variables include religion, field of study, and political affiliation. The survey also calculates a “climate sentiment score” based on answers to a variety of sub questions and reports them as a whole integer in the data set. There are also questions that ask to “select all that apply”. These questions are processed as a sum of all of the options chosen.
 
 #### Problem 2:  Sampling
 
-##### Part A
+##### Part A: Type of Sample
 
-Convenience sampling was used to obtain this dataset. The survey was only given to students in this specific class and it was optional. 
+Self-selected convenience sampling was used to obtain this data set. The survey was only given to students in this specific class and it was optional. 
 
-##### Part B
+##### Part B: Represented Population
 
-This sample could represent a couple of possible populations. Depending on the scale of the research question, We could see this sample help us interpret the populations of university students. This is because the data came from responses from students attending the University of Washington. However, to be even more accurate, the project could be a study of the general population of students at this school. Ultimately, it makes the most sense for this sample to represent students in their late teens and 20s, and to be current college or university students because many of the questions are most applicable to students. Questions about “area of study”, social media, and sleep and screen time, seem to pertain strongly to these populations. 
+This sample could represent a couple of possible populations. Depending on the scale of the research question, We could see this sample help us interpret the populations of university students. This is because the data came from responses from students attending the University of Washington. However, to be even more accurate, the project could be a study of the general population of students at this school. Ultimately, it makes the most sense for this sample to represent students in their late teens and 20s, and to be current college or university students because many of the questions are most applicable to students. Questions about area of study, social media, and sleep and screen time, seem to pertain strongly to these populations. 
 
 #### Problem 3:  Explore Climate Score
 
@@ -64,7 +64,7 @@ kdplot1 <- density(P.df$ClimateScore)
 plot(kdplot1, main="Kernel Density of Climate Score", xlab = "Climate Score")
 polygon(kdplot1, col="red", border="blue")
 
-boxplot(P.df$ClimateScore)
+boxplot(P.df$ClimateScore, main = "Distribution of Climate Scores", ylab = "Climate Score Value")
 ```
 
 The distribution of the climate score is skewed to the left, with median at 34 and mean at 33.42. It has a standard deviation of 5.27 and it also has 4 outliers.
@@ -75,7 +75,7 @@ non_rep <- P.df %>% select(PoliticalAff, ClimateScore) %>%
   filter(PoliticalAff != "Republican")
 
 hplot2 <- hist(non_rep$ClimateScore, breaks = c(8, 12, 16, 20, 24, 28, 32, 36, 40), xlab = "Climate Score", 
-     main = "Distribution of Climate Score", xlim = c(5, 40), col = "red")
+     main = "Distribution of Climate Scores by Political Affiliation", xlim = c(5, 40), col = "red")
 xfit<-seq(min(non_rep$ClimateScore), max(non_rep$ClimateScore), length=178)
 yfit<-dnorm(xfit, mean=mean(non_rep$ClimateScore), sd=sd(non_rep$ClimateScore))
 yfit <- yfit*diff(hplot2$mids[1:2])*length(non_rep$ClimateScore)
@@ -85,21 +85,19 @@ kdplot2 <- density(non_rep$ClimateScore)
 plot(kdplot2, main="Kernel Density of Climate Score", xlab = "Climate Score")
 polygon(kdplot2, col="red", border="blue")
 
-boxplot(non_rep$ClimateScore)
+boxplot(non_rep$ClimateScore, main="Distribution of Climate Scores by Political Affiliation", ylab="Climate Score Value")
 ```
 
 The distribution of the filtered data is still very similar with the one earlier. The main notable difference is that it now has 3 outliers instead of 4.
 
 #### Problem 4:  Political Affiliation and SIF Study
 
-##### Part A
+##### Part A: Contingency Table for Political Affiliation
 
 We have included the subset code in the R block below to get you started. You will need to form other subsets of data for other questions. Refer to R Assignment 2 Tutorial, R Assignment 2 Solutions and R Assignment 3 Tutorial for examples.
 
 ```{r}
-#table(P.df$PoliticalAff)
 PAff.D <- filter(P.df, PoliticalAff == "Democrat" |  PoliticalAff =="No affiliation")
-# Add the rest of the code for Part A
 
 PAff.D <- filter(PAff.D, SIFStudy == "Yes" | SIFStudy == "No")
 PAff.D$PoliticalAff <- factor(PAff.D$PoliticalAff)
@@ -110,7 +108,7 @@ tabDNA
 ```
 
 
-##### Part B
+##### Part B: CI For Political Affiliation Difference
 ```{r}
 # Large number test. (Yes, as a success)
 tabAll <- table(P.df$PoliticalAff, P.df$SIFStudy)
@@ -131,19 +129,19 @@ prop.test(c(tabAll[1,4], tabAll[3,4]), c(sum(tabAll[1,3:4]), sum(tabAll[3,3:4]))
                                     correct=FALSE)$conf.int
 ```
 
-We are 95% confident that the difference in the population proportion between people that are in favors 3-year SIF study in Seattle for Democrats and no-political-affiliatoin falls between about 5.56% and 45.19%. Since zero is not contained in the interval, there may be be difference between the proportions of the proportion of the two groups. 
+We are 95% confident that the difference in the population proportion of democrats versus those with no political affiliation that favor a three-year SIF study in Seattle falls between about 0.056 and 0.452. Since zero is not contained in the interval, there may be be difference between the proportions of the proportion of the two groups. 
 
-##### Part C
+##### Part C: Test for Political Affiliation
 
 ```{r}
-# null hypothesis = the proportion of students in favor of a three-year SIF study in Seattle is greater for students that identify as                       democrats versus no political affiliation
+# null hypothesis = the proportion of students in favor of a three-year SIF study in Seattle is greater for students that identify as democrats versus no political affiliation
 
 prop.test(c(tabAll[1,4], tabAll[3,4]), c(sum(tabAll[1,3:4]), sum(tabAll[3,3:4])),
           alternative = "less", correct=FALSE)
 
 ```
-
-The p-value is 0.99 Since p = 0.99 > alpha = 0.05, we fail to reject the null. There is no evidence that the proportion of students in favor of a three-year SIF study in Seattle is less for students that identify as democrats versus no political affiliation
+The null hypothesis is p-dem > p-no. The alternative hypothesis is p-dem <= p-no.
+The p-value is 0.99. Since p = 0.99 > alpha = 0.05, we fail to reject the null hypothesis. There is insufficient evidence to conclude that the proportion of students in favor of a three-year SIF study in Seattle is greater for students that identify as democrats versus no political affiliation.
 
 #### Problem 5: Inference for Climate Sentiment
 
@@ -157,22 +155,22 @@ meanConfidenceInterval <- function(sample, alpha) {
 }
 ```
 
-##### Part A
+##### Part A: 90% CI For Mean Climate Sentiment Score
 ```{r}
 meanConfidenceInterval(P.df$ClimateScore, .1)
 ```
-We are 90% confident that the population mean for climate sentiment is between about 32.76618 and 34.06528
+We are 90% confident that the population mean for climate sentiment is between about 32.766 and 34.065
 
-##### Part B
+##### Part B: 99% CI For Mean Climate Sentiment Score
 ```{r}
 meanConfidenceInterval(P.df$ClimateScore, .01)
 ```
-We are 99% confident that the population mean for climate sentiment is between about 32.39854 and 34.43293
+We are 99% confident that the population mean for climate sentiment is between about 32.399 and 34.433
 
-##### Part C
+##### Part C: Different Bounds
 The lower and upper bounds in part A are tighter (smaller range) than the lower and upper bounds in part B. This is because in part A we are less confident that the mean is within the given bounds and therefore we can have a tighter range. In part b we need to be more confident that the mean is within the given bounds and therefore we need a larger range.
 
-##### Part D
+##### Part D: Test for Mean Climate Sentiment Score
 ```{r}
 sample <- P.df$ClimateScore
 z <- (mean(sample) - 32.4) / (sd(sample) / sqrt(length(sample)))
@@ -186,14 +184,14 @@ test statistic: x_bar = 33.41573
 p-value: 0.01010778
 decision: reject the null hypothesis
 
-Because 0.01010778 <= .05, there is sufficient evidence to support the claim that the population mean for climate sentiment is different than 32.4.
+Because 0.010 <= .05, there is sufficient evidence to support the claim that the population mean for climate sentiment is different than 32.4.
 
-##### Part E
+##### Part E: Type of Error
 For the hypothesis test in part D we risk making a type 1 error. It is possible that we could reject the hypothesis that the population mean for climate sentiment is equal to 32.4, when in reality it actually is true.
 
 #### Problem 6: Climate Sentiment and Political Affiliation/Origin
 
-##### Part A
+##### Part A: 99% CI For Difference in Mean Climate Sentiment Scores
 ```{r}
 diffMeansCI <- function(x1, x2, alpha) {
   x1_bar <- mean(x1)
@@ -212,9 +210,9 @@ non_dems <- filter(P.df, PoliticalAff!="Democrat")
 
 diffMeansCI(dems$ClimateScore, non_dems$ClimateScore, .01)
 ```
-We are 99% confident that the difference in population mean climate scores between democrats and non-democrats falls between about 3.503038 and 6.747870
+We are 99% confident that the difference in population mean climate scores between democrats and non-democrats falls between about 3.503 and 6.748
 
-##### Part B
+##### Part B: Test For Mean Climate Sentiment Score by Political Affiliation
 ```{r}
 dems <- filter(P.df, PoliticalAff=="Democrat")
 non_dems <- filter(P.df, PoliticalAff!="Democrat")
@@ -243,7 +241,7 @@ decision: reject the null hypothesis
 
 Because 2*10^-16 <= .01, there is sufficient evidence to support the claim that the population mean climate sentiment score for students that identify as democrats is greater than the population mean score for students that identify as something other than democrat.
 
-##### Part C
+##### Part C: Test for Mean Climate Sentiment Score by Origin
 ```{r}
 urb <- filter(P.df, Origin=="Urban")
 sub <- filter(P.df, Origin=="Suburban")
@@ -269,10 +267,10 @@ p-value: 0.04459196
 
 decision: fail to reject to null hypothesis
 
-Because 0.04459196 > .01, there is insufficient evidence to support the claim that the population mean climate sentiment score for students raised in urban environment is different than the population mean score for students raised in a suburban environment.
+Because 0.045 > .01, there is insufficient evidence to support the claim that the population mean climate sentiment score for students raised in urban environment is different than the population mean score for students raised in a suburban environment.
 
 #### Extra Credit
 ```{r}
-P.df[ ,7]
+P.df[,7]
 ```
-It is difficult to eliminate groups down to only two categories because it feels like we are disregarding underrepresented groups. We think it would be best to combine students in the SES (socioeconomic status) category down to the labels, “Struggled” and “Little to No Struggle”. The original categories were somewhat difficult to interpret or measure so it made sense to just simplify it down to a binary variable. It is a fairly easy question to answer whether a family had significant struggle or not, rather than what specific Ethnicity a student is or what area of study they are in. Here, we would combine the students who answered with 1s or 2s which originally represented the responses, “My family had enough money to take care of things fine” and “My family was able to make ends meet, but with some difficulties” into the “Little to No Struggle” category. Then, we could combine the students who answered with 3s, 4s, and 5s which represented the responses “My family had to struggle hard to make ends meet”, “My family was not able to make ends meet, despite struggling hard”, “Most of the time I was growing up my family was very poor or on welfare”, respectively, into the “Struggled” category. Meanwhile, no one answered with “Prefer not to answer”, so that would be completely omitted from the binary variable. 
+It is difficult to eliminate groups down to only two categories because it feels like we are disregarding underrepresented groups. We think it would be best to combine students in the SES (socioeconomic status) category down to the labels, “Struggled” and “Little to No Struggle”. The original categories were somewhat difficult to interpret or measure so it made sense to just simplify it down to a binary variable. It is a fairly easy question to answer whether a family had significant struggle or not, rather than what specific Ethnicity a student is or what area of study they are in. Those groups are more difficult to combine. Here, we would combine the students who answered with 1s or 2s which originally represented the responses, “My family had enough money to take care of things fine” and “My family was able to make ends meet, but with some difficulties” into the “Little to No Struggle” category. Then, we could combine the students who answered with 3s, 4s, and 5s which represented the responses “My family had to struggle hard to make ends meet”, “My family was not able to make ends meet, despite struggling hard”, “Most of the time I was growing up my family was very poor or on welfare”, respectively, into the “Struggled” category. Meanwhile, no one answered with “Prefer not to answer”, so that would be completely omitted from the binary variable. 
