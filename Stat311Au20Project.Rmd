@@ -63,8 +63,11 @@ lines(xfit, yfit, col="blue", lwd=2)
 kdplot1 <- density(P.df$ClimateScore)
 plot(kdplot1, main="Kernel Density of Climate Score", xlab = "Climate Score")
 polygon(kdplot1, col="red", border="blue")
+
+boxplot(P.df$ClimateScore)
 ```
 
+The distribution of the climate score is skewed to the left, with median at 34 and mean at 33.42. It has a standard deviation of 5.27 and it also has 4 outliers.
 
 ##### Part B:  Climate Score by Democrat and No Affiliation
 ```{r}
@@ -81,8 +84,11 @@ lines(xfit, yfit, col="blue", lwd=2)
 kdplot2 <- density(non_rep$ClimateScore)
 plot(kdplot2, main="Kernel Density of Climate Score", xlab = "Climate Score")
 polygon(kdplot2, col="red", border="blue")
+
+boxplot(non_rep$ClimateScore)
 ```
 
+The distribution of the filtered data is still very similar with the one earlier. The main notable difference is that it now has 3 outliers instead of 4.
 
 #### Problem 4:  Political Affiliation and SIF Study
 
@@ -103,19 +109,41 @@ tabDNA <- table(PAff.D$PoliticalAff, PAff.D$SIFStudy)
 tabDNA
 ```
 
+
 ##### Part B
 ```{r}
 # Large number test. (Yes, as a success)
-tabDNA
+tabAll <- table(P.df$PoliticalAff, P.df$SIFStudy)
+tabAll
 
-sum(tabDNA[1,]) * tabDNA[1,2]/sum(tabDNA[1,]) # n1p1
-sum(tabDNA[1,]) * (1- (tabDNA[1,2]/sum(tabDNA[1,]))) # n1q1
-sum(tabDNA[2,]) * tabDNA[2,2]/sum(tabDNA[2,]) # n2p2
-sum(tabDNA[2,]) * (1- (tabDNA[2,2]/sum(tabDNA[2,]))) # n2q2
+sum(tabAll[1,]) * tabAll[1,4]/sum(tabAll[1,]) # n1p1
+sum(tabAll[1,]) * (1- (tabAll[1,4]/sum(tabAll[1,]))) # n1q1
+sum(tabAll[3,]) * tabAll[3,4]/sum(tabAll[3,]) # n2p2
+sum(tabAll[3,]) * (1- (tabAll[3,4]/sum(tabAll[3,]))) # n2q2
 ```
 
+The large sample condition holds so we proceed with the confidence interval.
+
+```{r}
+# CI construct
+prop.test(c(tabAll[1,4], tabAll[3,4]), c(sum(tabAll[1,3:4]), sum(tabAll[3,3:4])),
+                                    conf.level=0.95,
+                                    correct=FALSE)$conf.int
+```
+
+We are 95% confident that the difference in the population proportion between people that are in favors 3-year SIF study in Seattle for Democrats and no-political-affiliatoin falls between about 5.56% and 45.19%. Since zero is not contained in the interval, there may be be difference between the proportions of the proportion of the two groups. 
 
 ##### Part C
+
+```{r}
+# null hypothesis = the proportion of students in favor of a three-year SIF study in Seattle is greater for students that identify as                       democrats versus no political affiliation
+
+prop.test(c(tabAll[1,4], tabAll[3,4]), c(sum(tabAll[1,3:4]), sum(tabAll[3,3:4])),
+          alternative = "less", correct=FALSE)
+
+```
+
+The p-value is 0.99 Since p = 0.99 > alpha = 0.05, we fail to reject the null. There is no evidence that the proportion of students in favor of a three-year SIF study in Seattle is less for students that identify as democrats versus no political affiliation
 
 #### Problem 5: Inference for Climate Sentiment
 
