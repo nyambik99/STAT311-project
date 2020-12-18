@@ -2,7 +2,9 @@
 title: "STAT 311 Project Group 38"
 author: "Kyle Mumma, Jasmine Joy Palaganas, Sofyar Satrio Utomo"
 date: "12/15/2020"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 #### Setup
 
